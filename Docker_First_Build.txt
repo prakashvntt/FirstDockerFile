@@ -41,3 +41,6 @@ jenkins@prakash:~$ sudo systemctl restart Jenkins
 #Add Jenkins - Manage Jenkins - System - Add Docker Builder to Docker Remote API -  unix:///var/run/docker.sock
 #Test the connection
 #APPLY and SAVE
+
+
+https://crontab.guru/#*_*_*_*_*
