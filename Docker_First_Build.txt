@@ -1,0 +1,43 @@
+Replace shadow:x:42:jenkins to communicate between local user and Jenkins
+
+Add Docker Dependencies
+
+prakash@prakash:~$ sudo apt-get update
+Get:1 https://dl.google.com/linux/chrome/deb stable InRelease [1,825 B]
+Get:2 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1,090 B]
+Hit:3 http://in.archive.ubuntu.com/ubuntu noble InRelease
+Get:4 http://in.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+Ign:5 https://pkg.jenkins.io/debian-stable binary/ InRelease
+Hit:6 https://pkg.jenkins.io/debian-stable binary/ Release
+Get:7 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+Hit:9 http://in.archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:10 http://in.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [265 kB]
+Get:11 http://in.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [70.3 kB]
+Get:12 http://in.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [299 kB]
+Get:13 http://in.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [126 kB]
+Get:14 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [229 kB]
+Get:15 http://security.ubuntu.com/ubuntu noble-security/main Translation-en [56.1 kB]
+Get:16 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [239 kB]
+Get:17 http://security.ubuntu.com/ubuntu noble-security/universe Translation-en [104 kB]
+Fetched 1,644 kB in 5s (348 kB/s)
+Reading package lists... Done
+prakash@prakash:~$ su - jenkins
+Password:
+jenkins@prakash:~$
+jenkins@prakash:~$
+jenkins@prakash:~$ sudo vim /etc/group
+jenkins@prakash:~$ sudo nano /etc/group
+
+# Add Jenkins word to Docker
+docker:x:124:jenkins
+
+jenkins@prakash:~$ sudo nano /usr/lib/systemd/system/docker.service
+#Replac the line : ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock -H unix:///var/run/docker.sock
+jenkins@prakash:~$ sudo systemctl restart docker
+Warning: The unit file, source configuration file or drop-ins of docker.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+jenkins@prakash:~$ sudo systemctl daemon-reload
+jenkins@prakash:~$ sudo systemctl restart docker
+jenkins@prakash:~$ sudo systemctl restart Jenkins
+#Add Jenkins - Manage Jenkins - System - Add Docker Builder to Docker Remote API -  unix:///var/run/docker.sock
+#Test the connection
+#APPLY and SAVE
